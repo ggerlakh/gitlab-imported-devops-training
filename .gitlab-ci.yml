@@ -34,7 +34,7 @@ terraform-plan:
   stage: create_infra
   <<: *terraform_installation_template
   rules:
-    - if: '$CI_COMMIT_REF_NAME == "master"'
+    - if: '$CI_COMMIT_REF_NAME == "main"'
   script:
     - terraform --chdir=$TF_SOURCES_DIR validate
     - terraform --chdir=$TF_SOURCES_DIR plan
@@ -44,7 +44,7 @@ terraform-apply:
   <<: *terraform_installation_template
   when: manual
   rules:
-    - if: '$CI_COMMIT_REF_NAME == "master"'
+    - if: '$CI_COMMIT_REF_NAME == "main"'
   script:
     - terraform --chdir=$TF_SOURCES_DIR apply -auto-approve
 
@@ -53,6 +53,6 @@ terraform-destroy:
   <<: *terraform_installation_template
   when: manual
   rules:
-    - if: '$CI_COMMIT_REF_NAME == "master"'
+    - if: '$CI_COMMIT_REF_NAME == "main"'
   script:
     - terraform --chdir=$TF_SOURCES_DIR destroy -auto-approve
