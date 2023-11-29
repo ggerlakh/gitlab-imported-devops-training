@@ -7,7 +7,7 @@ default:
   image: ubuntu:latest
 
 variables:
-  TF_SOURCES_DIR: "$CI_PROJECT_DIR/terraform"
+  TF_SOURCES_DIR: "$CI_PROJECT_DIR/Terraform"
 
 .terraform_installation_template: &terraform_installation_template
   before_script:
