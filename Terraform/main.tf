@@ -103,8 +103,8 @@ resource "yandex_compute_instance_group" "bingo" {
       }
     }
     metadata = {
-      user-data = file("${path.module}/cloud-config.yml")
-      ssh-keys  = "root:${var.SSH_VM_ROOT_PUB}"
+      #user-data = file("${path.module}/cloud-config.yml")
+      ssh-keys  = vm-user:${var.SSH_VM_USER_PUB}"
     }
   }
   load_balancer {
@@ -156,8 +156,8 @@ resource "yandex_compute_instance_group" "bingo-db" {
       }
     }
     metadata = {
-      user-data = file("${path.module}/cloud-config.yml")
-      ssh-keys  = "root:${var.SSH_VM_ROOT_PUB}"
+      #user-data = file("${path.module}/cloud-config.yml")
+      ssh-keys  = "vmdb-user:${var.SSH_VMDB_USER_PUB}"
     }
   }
 }
