@@ -1,6 +1,7 @@
 stages:
   - lint
   - create_infra
+  - destroy_infra
   - deploy
 
 default:
@@ -47,12 +48,16 @@ terraform-apply:
     - if: '$CI_COMMIT_REF_NAME == "main"'
   script:
     - terraform -chdir=$TF_SOURCES_DIR apply -auto-approve
+  artifacts:
+    untracked: true
 
 terraform-destroy:
-  stage: create_infra
+  stage: destroy_infra
   <<: *terraform_installation_template
   when: manual
   rules:
     - if: '$CI_COMMIT_REF_NAME == "main"'
   script:
     - terraform -chdir=$TF_SOURCES_DIR destroy -auto-approve
+  dependencies:
+    - terraform-apply
