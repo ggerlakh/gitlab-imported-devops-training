@@ -1,0 +1,8 @@
+#cloud-config
+users:
+  - name: vmdb-user
+    groups: sudo
+    shell: /bin/bash
+    sudo: 'ALL=(ALL) NOPASSWD:ALL'
+    ssh-authorized-keys:
+      - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC6uqrUEo3ApLhIa/oghIgYcUTbIxPfnbcU8ErEg004B5dEPgCZKS0tk5aD+ZwMjljA9ihNiJ4nY6cuKjXK2o7pBze2jX3rlOpQhKb1612Z6PC83yZQkNE/L4pYV8F7OhXecNTUdqOkMKFGSPYTr+lxM1Nygiy77DECd/AFrJNJzM8JXyzGJ+AtmGLv9OM42jE8qQ8EqPXD/a2XF1+tJ3B2jGV1l0J28UZgCdKOX743d/7EXxflLha+qQZ/22pLr96zQXdgeamXB1VgP0jy1t/TRzNx2njU81U/Uo4L9CGkCkG2bDGr0wU9DthUAUVZ74zTCPgcr6Ejsg72z/z3Btz/bKyXUQF+KBHtqixImfvh0OTjbW49yP1hRFz7ihPzdWJnlPeHm8+dzyiuLxHooPtaWt/neYIBMbC8mt1o4LTjzX+4wQnC1aPUC6kmyzWOf93nAdweiLWq7QcvNzZV1VqNq3abFdtQ1k+Ao84i/LFAcFLoOba1STZwpJagM0MmO1s= first vm for vmdb-user devops training'
