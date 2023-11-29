@@ -10,6 +10,6 @@ variable "SSH_VM_USER_PUB" {
   type = string
 }
 
-variable "SSH_VMDB_ROOT_PUB" {
+variable "SSH_VMDB_USER_PUB" {
   type = string
 }
