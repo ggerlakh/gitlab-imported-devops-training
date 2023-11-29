@@ -12,9 +12,8 @@ variables:
 .terraform_installation_template: &terraform_installation_template
   before_script:
     - apt update
-    - apt install -y wget unzip tree
+    - apt install -y wget unzip
     - wget https://releases.hashicorp.com/terraform/1.6.5/terraform_1.6.5_linux_amd64.zip
-    - tree -a "$CI_PROJECT_DIR"
     - mv terraform /usr/local/bin/
     - cp "$TF_SOURCES_DIR/.terraformrc" ~/
     - terraform init
