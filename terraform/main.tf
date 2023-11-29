@@ -103,7 +103,7 @@ resource "yandex_compute_instance_group" "bingo" {
       }
     }
     metadata = {
-      user-data = file("${path.module}/cloud-config-vm1.yml")
+      user-data = file("${path.module}/cloud-config.yml")
       ssh-keys  = var.SSH_VM1_ROOT_PUB
     }
   }
