@@ -5,7 +5,7 @@ stages:
 
 lint-terraform:
   stage: lint
-  image: ubuntu:lastest
+  image: ubuntu:latest
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   before_script:
