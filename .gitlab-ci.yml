@@ -8,6 +8,8 @@ lint-terraform:
   image: ubuntu:latest
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - terraform/*
   before_script:
     - apt update && apt install -y curl unzip
     - curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
