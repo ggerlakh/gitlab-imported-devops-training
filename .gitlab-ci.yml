@@ -1,0 +1,15 @@
+stages:
+  - lint
+  - create_infra
+  - deploy
+
+lint-terraform:
+  stage: lint
+  image: ubuntu:latest
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  before_script:
+    - apt update && apt install -y curl unzip
+    - curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+  script:
+    - tflint --chdir=terraform --minimum-failure-severity=error

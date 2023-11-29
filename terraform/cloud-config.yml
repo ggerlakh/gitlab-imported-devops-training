@@ -1,0 +1,8 @@
+#cloud-config
+users:
+  - name: vm1-user
+    groups: sudo
+    shell: /bin/bash
+    sudo: 'ALL=(ALL) NOPASSWD:ALL'
+    ssh-authorized-keys:
+      - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCsZFc3cXuTv6TozErMUkuwuPYuZPSCWqZZWiZiAyLGk2v9mR3d4eLrxOoLP/q4+ZqnRSgwafXVtAFOGVeQQb9OaeZzKO5Ts9sfDg8aC3HZLeKczc9Dp88KxLr0zZFKRZXO0SEnQ6iKrhPY2k87PH1sYbz2QIrHD5BSSunhgTRLW6jWvFy47hQJw7Kn8gp6t5TKEoa/VY8fG59aGcHg+G9qWB60BpDbSS+Zy0x+sbN/1wlz7FhOKM8I/DxJv2ygVfP/ANIhYT8KkRjNRQT7DI5Tl6Esx7nuK0rCIdx29ambDQPxoktHwzhRf7avPuWnLBA9GFwibQqaVP+UBBCgGn0JtDCkpzTYYedG9xshCuFchGZVghbBgjj+fNr5Q7LoEM5aHAdGH+OgTcNXogD0yEaehkqIMgvm1QU9BAucftTJXKPx2tb6FAEkQpYR1xAQOb0pczl2SIoWtpXFF4Izai0j8TTyruU38tRQCBUSk/YfvihT/0jQ76bHDfEZVWOIyqs= first vm for vm1-user devops training'
