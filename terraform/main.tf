@@ -104,7 +104,7 @@ resource "yandex_compute_instance_group" "bingo" {
     }
     metadata = {
       user-data = file("${path.module}/cloud-config.yml")
-      ssh-keys  = var.SSH_VM_ROOT_PUB
+      ssh-keys  = "root:${var.SSH_VM_ROOT_PUB}"
     }
   }
   load_balancer {
