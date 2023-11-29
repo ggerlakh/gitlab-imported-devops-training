@@ -112,27 +112,77 @@ resource "yandex_compute_instance_group" "bingo" {
   }
 }
 
-#resource "yandex_lb_network_load_balancer" "lb-bingo" {
-  #name = "bingo"
+resource "yandex_compute_instance_group" "bingo-db" {
+  depends_on = [
+    yandex_resourcemanager_folder_iam_member.bingo-ig-roles
+  ]
+  name               = "bingo-db"
+  service_account_id = yandex_iam_service_account.service-accounts["bingo-ig-sa"].id
+  allocation_policy {
+    zones = ["ru-central1-a"]
+  }
+  deploy_policy {
+    max_unavailable = 1
+    max_creating    = 1
+    max_expansion   = 1
+    max_deleting    = 1
+  }
+  scale_policy {
+    fixed_scale {
+      size = 1
+    }
+  }
+  instance_template {
+    platform_id        = "standard-v2"
+    service_account_id = yandex_iam_service_account.service-accounts["bingo-sa"].id
+    resources {
+      cores         = 2
+      memory        = 1
+      core_fraction = 5
+    }
+    scheduling_policy {
+      preemptible = true
+    }
+    network_interface {
+      network_id = yandex_vpc_network.foo.id
+      subnet_ids = ["${yandex_vpc_subnet.foo.id}"]
+      nat        = true
+    }
+    boot_disk {
+      initialize_params {
+        type     = "network-hdd"
+        size     = "30"
+        image_id = data.yandex_compute_image.ubuntu-vm-image.id
+      }
+    }
+    metadata = {
+      user-data = file("${path.module}/cloud-config.yml")
+      ssh-keys  = "root:${var.SSH_VM_ROOT_PUB}"
+    }
+  }
+}
 
-  #listener {
-    #name        = "bingo-listener"
-    #port        = 80
-    #target_port = 8080
-    #external_address_spec {
-      #ip_version = "ipv4"
-    #}
-  #}
+resource "yandex_lb_network_load_balancer" "lb-bingo" {
+  name = "bingo"
 
-  #attached_target_group {
-    #target_group_id = yandex_compute_instance_group.bingo.load_balancer[0].target_group_id
+  listener {
+    name        = "bingo-listener"
+    port        = 80
+    target_port = 8080
+    external_address_spec {
+      ip_version = "ipv4"
+    }
+  }
 
-    #healthcheck {
-      #name = "http"
-      #http_options {
-        #port = 8080
-        #path = "/ping"
-      #}
-    #}
-  #}
-#}
+  attached_target_group {
+    target_group_id = yandex_compute_instance_group.bingo.load_balancer[0].target_group_id
+
+    healthcheck {
+      name = "http"
+      http_options {
+        port = 8080
+        path = "/ping"
+      }
+    }
+  }
+}
