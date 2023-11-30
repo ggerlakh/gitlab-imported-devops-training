@@ -48,7 +48,7 @@ lint-ansible:
       changes:
         - ansible/*
   script:
-    - ansible-lint -v "$ANSIBLE_SOURCES_DIR/*.yml"
+    - ansible-lint -v "$ANSIBLE_SOURCES_DIR"
     - ansible-playbook --inventory "$ANSIBLE_SOURCES_DIR/inventory/hosts" --syntax-check "$ANSIBLE_SOURCES_DIR/*.yml"
 
 terraform-plan:
