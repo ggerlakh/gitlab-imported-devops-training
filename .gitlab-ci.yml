@@ -46,7 +46,7 @@ lint-ansible:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
-        - ansible/*
+        - ansible/**/*
   script:
     - ansible-lint --profile min "$ANSIBLE_SOURCES_DIR"
     - ansible-playbook --inventory "$ANSIBLE_SOURCES_DIR/inventory/hosts" --syntax-check "$ANSIBLE_SOURCES_DIR/deploy-playbook.yml"
