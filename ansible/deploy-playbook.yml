@@ -1,0 +1,9 @@
+--- 
+- name: Example playbook
+  hosts: localhost
+  roles:
+    - role: linuxconfig.dotfiles
+      dotfiles_repository: https://github.com/linuxconfig/dotfiles
+      dotfiles_files:
+        - vim
+        - vimrc
