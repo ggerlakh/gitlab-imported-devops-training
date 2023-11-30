@@ -12,7 +12,7 @@
   become_method: sudo
   ansible.builtin.copy:
     src: app/bingo
-    dst: /opt/bingo/bingo
+    dest: /opt/bingo/bingo
     mode: 0777
 
 - name: Copy bingo config
@@ -20,7 +20,7 @@
   become_method: sudo
   ansible.builtin.copy:
     src: app/config.yaml
-    dst: /opt/bingo/config.yaml
+    dest: /opt/bingo/config.yaml
     mode: 0777
 
 - name: Create bingo directory /opt/bongo/logs/765ca2c062/ for main.log
@@ -36,7 +36,7 @@
   become_method: sudo
   ansible.builtin.copy:
     src: app/bingo.service
-    dst: /etc/systemd/system/bingo.service
+    dest: /etc/systemd/system/bingo.service
     mode: 0755
 
 - name: Start and enable bingo.service
