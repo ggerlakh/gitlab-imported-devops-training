@@ -23,11 +23,11 @@
     dest: /opt/bingo/config.yaml
     mode: 0777
 
-- name: Create bingo directory /opt/bongo/logs/765ca2c062/ for main.log
+- name: Create bingo directory /opt/bongo/logs/a9385ac2b4/ for main.log
   become: yes
   become_method: sudo
   ansible.builtin.file:
-    path: /opt/bongo/logs/765ca2c062
+    path: /opt/bongo/logs/a9385ac2b4
     state: directory
     mode: 0777
 
