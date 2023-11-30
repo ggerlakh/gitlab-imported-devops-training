@@ -5,7 +5,7 @@ After=multi-user.target
 [Service]
 Type=simple
 User=vm-user
-ExecStart=./opt/bingo/bingo run_server
+ExecStart=/opt/bingo/bingo run_server
 TimeoutSec=360
 
 [Install]
