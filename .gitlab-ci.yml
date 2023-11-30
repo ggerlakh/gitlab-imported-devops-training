@@ -84,7 +84,7 @@ terraform-destroy:
   dependencies:
     - terraform-apply
 
-deploy:
+bingo-deploy:
   stage: deploy
   <<: *ansible_installation_template
   when: manual
@@ -96,3 +96,16 @@ deploy:
     - chmod 400 secret/ansible.key
     - export ANSIBLE_HOST_KEY_CHECKING=False
     - ansible-playbook --private-key secret/ansible.key --user ansible --inventory "$ANSIBLE_SOURCES_DIR/inventory/hosts" "$ANSIBLE_SOURCES_DIR/deploy-playbook.yml"
+
+nginx-deploy:
+  stage: deploy
+  <<: *ansible_installation_template
+  when: manual
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main"'
+  script:
+    - mkdir secret
+    - echo "$ANSIBLE_SSH_PRIVATE_KEY" > secret/ansible.key
+    - chmod 400 secret/ansible.key
+    - export ANSIBLE_HOST_KEY_CHECKING=False
+    - ansible-playbook --private-key secret/ansible.key --user ansible --inventory "$ANSIBLE_SOURCES_DIR/inventory/hosts" "$ANSIBLE_SOURCES_DIR/nginx-playbook.yml"

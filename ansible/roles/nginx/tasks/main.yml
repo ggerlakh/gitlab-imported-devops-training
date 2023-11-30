@@ -1,0 +1,41 @@
+---
+- name: Create /var/lib/nginx/proxy_cache directory for nginx cache
+  become: yes
+  become_method: sudo
+  ansible.builtin.file:
+    path: /var/lib/nginx/proxy_cache
+    state: directory
+    mode: 0777
+
+- name: Update apt cache and install nginx
+  become: yes
+  become_method: sudo
+  ansible.builtin.apt:
+    name: nginx
+    update_cache: yes
+
+- name: Copy nginx.conf
+  become: yes
+  become_method: sudo
+  ansible.builtin.copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+    mode: 0755
+
+- name: Copy bingo.conf for nginx
+  become: yes
+  become_method: sudo
+  ansible.builtin.copy:
+    src: conf.d/bingo.conf
+    dest: /etc/nginx/conf.d/bingo.conf
+    mode: 0755
+
+- name: Start and enable nginx.service
+  become: yes
+  become_method: sudo
+  ansible.builtin.systemd:
+    enabled: true
+    state: restarted
+    daemon_reload: true
+    name: nginx
+
