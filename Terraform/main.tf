@@ -168,7 +168,7 @@ resource "yandex_lb_network_load_balancer" "lb-bingo" {
   listener {
     name        = "bingo-listener"
     port        = 80
-    target_port = 8080
+    target_port = 33227
     external_address_spec {
       ip_version = "ipv4"
     }
@@ -180,7 +180,7 @@ resource "yandex_lb_network_load_balancer" "lb-bingo" {
     healthcheck {
       name = "http"
       http_options {
-        port = 8080
+        port = 33227
         path = "/ping"
       }
     }
