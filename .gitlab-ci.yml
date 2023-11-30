@@ -26,6 +26,7 @@ variables:
     - ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
     - apt update
     - apt install -qy python3 python3-pip git ansible
+    - pip install ansible-lint
 
 lint-terraform:
   stage: lint
@@ -47,6 +48,7 @@ lint-ansible:
       changes:
         - ansible/*
   script:
+    - ansible-lint --profile min "$ANSIBLE_SOURCES_DIR"
     - ansible-playbook --inventory "$ANSIBLE_SOURCES_DIR/inventory/hosts" --syntax-check "$ANSIBLE_SOURCES_DIR/deploy-playbook.yml"
 
 terraform-plan:
