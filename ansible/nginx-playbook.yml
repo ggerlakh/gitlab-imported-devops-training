@@ -1,0 +1,6 @@
+--- 
+- name: nginx setup playbook
+  hosts: bingo-vms
+  remote_user: ansible
+  roles:
+    - role: nginx
