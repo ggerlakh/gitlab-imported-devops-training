@@ -40,7 +40,7 @@ lint-terraform:
   script:
     - tflint --chdir=$TF_SOURCES_DIR --minimum-failure-severity=error
 
-lint-ansoble:
+lint-ansible:
   stage: lint
   <<: *ansible_installation_template
   rules:
