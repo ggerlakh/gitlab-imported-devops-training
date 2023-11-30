@@ -9,6 +9,7 @@ default:
 
 variables:
   TF_SOURCES_DIR: "$CI_PROJECT_DIR/Terraform"
+  ANSIBLE_SOURCES_DIR: "$CI_PROJECT_DIR/ansible"
 
 .terraform_installation_template: &terraform_installation_template
   before_script:
@@ -19,17 +20,36 @@ variables:
     - cp "$TF_SOURCES_DIR/.terraformrc" ~/
     - terraform -chdir=$TF_SOURCES_DIR init
 
+.ansible_installation_template: &ansible_installation_template
+  before_script:
+    - export TZ=Europe/Moscow
+    - ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+    - apt update
+    - apt install -qy python3 python3-pip git ansible
+    - pip install ansible-lint
+
 lint-terraform:
   stage: lint
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
-        - terraform/*
+        - Terraform/*
   before_script:
     - apt update && apt install -y curl unzip
     - curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
   script:
     - tflint --chdir=$TF_SOURCES_DIR --minimum-failure-severity=error
+
+lint-ansible:
+  stage: lint
+  <<: *ansible_installation_template
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - ansible/*
+  script:
+    - ansible-lint --profile min "$ANSIBLE_SOURCES_DIR"
+    - ansible-playbook --inventory "$ANSIBLE_SOURCES_DIR/inventory/hosts" --syntax-check "$ANSIBLE_SOURCES_DIR/deploy-playbook.yml"
 
 terraform-plan:
   stage: create_infra
@@ -61,3 +81,15 @@ terraform-destroy:
     - terraform -chdir=$TF_SOURCES_DIR destroy -auto-approve
   dependencies:
     - terraform-apply
+
+deploy:
+  stage: deploy
+  when: manual
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main"'
+  script:
+    - mkdir secret
+    - echo "$ANSIBLE_SSH_PRIVATE_KEY" > secret/ansible.key
+    - chmod 400 secret/ansible.key
+    - export ANSIBLE_HOST_KEY_CHECKING=False
+    - ansible-playbook --private-key secret/ansible.key --user ansible --inventory "$ANSIBLE_SOURCES_DIR/inventory/hosts" "$ANSIBLE_SOURCES_DIR/deploy-playbook.yml"

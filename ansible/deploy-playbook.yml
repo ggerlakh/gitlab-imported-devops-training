@@ -1,0 +1,6 @@
+--- 
+- name: bingo deploy playbook
+  hosts: bingo-vms
+  remote_user: ansible
+  roles:
+    - role: bingo_start
