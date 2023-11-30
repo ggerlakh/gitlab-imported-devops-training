@@ -1,18 +1,50 @@
 ---
-- name: test file creation
-  ansible.builtin.file:
-    path: /home/ansible/test_ansible
-    state: touch
-    mode: 0775
-
-- name: testing ansible shell module
-  ansible.builtin.shell:
-    cmd: |
-      echo "user: $(whoami), date: $(date), hostname: $(hostname)" >> /home/ansible/test_ansible
-
-- name: update apt cache with sudo
-  # run task with sudo
+- name: Create /opt/bingo directory for app
   become: yes
   become_method: sudo
-  ansible.builtin.apt:
-    update_cache: yes
+  ansible.builtin.file:
+    path: /opt/bingo
+    state: directory
+    mode: 0777
+
+- name: Copy bingo exec file
+  become: yes
+  become_method: sudo
+  ansible.builtin.copy:
+    src: app/bingo
+    dst: /opt/bingo/bingo
+    mode: 0777
+
+- name: Copy bingo config
+  become: yes
+  become_method: sudo
+  ansible.builtin.copy:
+    src: app/config.yaml
+    dst: /opt/bingo/config.yaml
+    mode: 0777
+
+- name: Create bingo directory /opt/bongo/logs/765ca2c062/ for main.log
+  become: yes
+  become_method: sudo
+  ansible.builtin.file:
+    path: /opt/bongo/logs/765ca2c062
+    state: directory
+    mode: 0777
+
+- name: Copy systemd.service config for bingo app
+  become: yes
+  become_method: sudo
+  ansible.builtin.copy:
+    src: app/bingo.service
+    dst: /etc/systemd/system/bingo.service
+    mode: 0755
+
+- name: Start and enable bingo.service
+  become: yes
+  become_method: sudo
+  ansible.builtin.systemd:
+    enabled: true
+    state: restarted
+    daemon_reload: true
+    name: bingo
+
