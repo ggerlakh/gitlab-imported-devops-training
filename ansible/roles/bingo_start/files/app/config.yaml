@@ -1,4 +1,4 @@
-student_email: glebgerlah@yadex.ru
+student_email: glebgerlah@yandex.ru
 postgres_cluster:
   hosts:
   - address: 10.5.0.23
