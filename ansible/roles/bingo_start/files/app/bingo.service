@@ -8,7 +8,7 @@ User=vm-user
 ExecStart=/opt/bingo/bingo run_server
 TimeoutSec=360
 Restart=on-failure
-RestartSec=30s
+RestartSec=10s
 
 [Install]
 WantedBy=multi-user.target
