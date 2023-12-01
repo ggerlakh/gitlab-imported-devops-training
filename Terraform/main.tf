@@ -166,9 +166,18 @@ resource "yandex_lb_network_load_balancer" "lb-bingo" {
   name = "bingo"
 
   listener {
-    name        = "bingo-listener"
+    name        = "bingo-http-listener"
     port        = 80
-    target_port = 33227
+    target_port = 80
+    external_address_spec {
+      ip_version = "ipv4"
+    }
+  }
+
+  listener {
+    name        = "bingo-https-listener"
+    port        = 443
+    target_port = 443
     external_address_spec {
       ip_version = "ipv4"
     }

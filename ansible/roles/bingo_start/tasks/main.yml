@@ -48,17 +48,17 @@
     daemon_reload: true
     name: bingo
 
-- name: Copy healthcheck bash script
-  become: yes
-  become_method: sudo
-  ansible.builtin.copy:
-    src: app/healthcheck.sh
-    dest: /opt/bingo/healthcheck.sh
-    mode: 0777
+#- name: Copy healthcheck bash script
+  #become: yes
+  #become_method: sudo
+  #ansible.builtin.copy:
+    #src: app/healthcheck.sh
+    #dest: /opt/bingo/healthcheck.sh
+    #mode: 0777
 
-- name: Setup a cronjob for /ping healthcheck
-  become: yes
-  become_method: sudo
-  ansible.builtin.cron:
-    name: "bingo healthcheck job"
-    job: "bash /opt/bingo/healthcheck.sh &>/dev/null"
+#- name: Setup a cronjob for /ping healthcheck
+  #become: yes
+  #become_method: sudo
+  #ansible.builtin.cron:
+    #name: "bingo healthcheck job"
+    #job: "bash /opt/bingo/healthcheck.sh &>/dev/null"
