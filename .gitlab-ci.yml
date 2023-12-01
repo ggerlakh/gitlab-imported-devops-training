@@ -108,4 +108,6 @@ nginx-deploy:
     - echo "$ANSIBLE_SSH_PRIVATE_KEY" > secret/ansible.key
     - chmod 400 secret/ansible.key
     - export ANSIBLE_HOST_KEY_CHECKING=False
+    - echo "$SSL_CERT_PRIVATE_KEY" > "$ANSIBLE_SOURCES_DIR/roles/nginx/files/privateKey.key"
+    - chmod 400 "$ANSIBLE_SOURCES_DIR/roles/nginx/files/privateKey.key"
     - ansible-playbook --private-key secret/ansible.key --user ansible --inventory "$ANSIBLE_SOURCES_DIR/inventory/hosts" "$ANSIBLE_SOURCES_DIR/nginx-playbook.yml"

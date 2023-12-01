@@ -30,6 +30,22 @@
     dest: /etc/nginx/conf.d/bingo.conf
     mode: 0755
 
+- name: Copy self-signed ssl certificate for https
+  become: yes
+  become_method: sudo
+  ansible.builtin.copy:
+    src: certificate.crt
+    dest: /etc/ssl/certificate.crt
+    mode: 0644
+
+- name: Copy certsificate private key for https
+  become: yes
+  become_method: sudo
+  ansible.builtin.copy:
+    src: privateKey.key
+    dest: /etc/ssl/privateKey.key
+    mode: 0400
+
 - name: Start and enable nginx.service
   become: yes
   become_method: sudo
