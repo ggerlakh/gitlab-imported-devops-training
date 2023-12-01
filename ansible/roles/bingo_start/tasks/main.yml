@@ -48,3 +48,8 @@
     daemon_reload: true
     name: bingo
 
+- name: Setup a cronjob for /ping healthcheck
+  become: yes
+  become_method: sudo
+  ansible.builtin.cron:
+    job: "if [[ $(curl -s -i http://localhost:33227/ping | head -1 | awk -F' ' '{print $2}') == '500' ]]; then /bin/systemctl restart bingo; fi"
